@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SUNRISE-SUNSET</title>
+
+    <style>
+      body {
+        margin: 0;
+        text-align: center;
+      }
+      .secnery {
+        height: 100vh;
+        background-color: rgb(73, 164, 254);
+        position: relative;
+        background-image: url("morning.png");
+        background-size: cover;
+      }
+      .sun {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: rgb(255, 238, 0);
+        box-shadow: 0px 0px 30px rgb(255, 238, 0);
+        position: absolute;
+        left: 2%;
+        bottom: 2%;
+        transform-origin: bottom left;
+        transform-origin: 48vw;
+      }
+      .greet {
+        display: inline-block;
+        font-size: 4rem;
+        top: 40vh;
+
+        border-style: none none solid none;
+        border-color: black;
+        border-width: 2px;
+      }
+      .greet,
+      .time {
+        width: 50%;
+        position: relative;
+        margin: auto;
+        color: black;
+        font-family: serif;
+        letter-spacing: 2px;
+      }
+      .time {
+        top: 45vh;
+        font-size: 2.5rem;
+      }
+      .img-right, .img-left {
+          position: absolute;
+          z-index: 1;
+      }
+      .img-right{
+        bottom: 0;
+        right:0 ;
+      }
+      .img-left{
+        bottom: 0;
+        left:0 ;
+      }
+      @media (max-width: 768px) and (max-height: 900px) {
+        .secnery{
+            height: 100vh;
+            overflow-x: hidden;
+        }
+          .greet {
+              font-size: 2rem;
+              top: 20vh
+          }
+          .time {
+              font-size: 1rem;
+              top: 25vh;
+          }
+          .sun {
+              width: 20px;
+              height: 20px;
+              transform-origin: 45vw;
+          }
+          .img-left, .img-right {
+              width: 40%;
+          }
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="secnery">
+      <div class="sun"></div>
+      <div class="greet">Welcome !</div>
+      <div class="time">00:00 AM</div>
+      <img class="img-left" src="mountain-left.png" alt="">
+      <img class="img-right" src="mountain-right.png" alt="">
+    </div>
+
+    <script>
+      clockWatch();
+      sun();
+
+      function clockWatch() {
+        const date = new Date();
+        const time = date.getHours();
+
+        var hours = time;
+        var minutes = date.getMinutes();
+        var seconds = date.getSeconds();
+
+        var clock = document.querySelector(".time");
+        insideHTML = "0" + (time % 12) + ":";
+
+        if (minutes >= 10 && seconds >= 10) {
+          insideHTML += minutes + ":" + seconds;
+        } else if (minutes < 10 && seconds >= 10) {
+          insideHTML += "0" + minutes + ":" + seconds;
+        } else if (minutes < 10 && seconds < 10) {
+          insideHTML += "0" + minutes + ":" + "0" + seconds;
+        } else if (minutes > 10 && seconds < 10) {
+          insideHTML += minutes + ":" + "0" + seconds;
+        }
+
+        if (time < 12) {
+          insideHTML += " AM";
+        } else {
+          insideHTML += " PM";
+        }
+
+        clock.innerHTML = insideHTML;
+        setTimeout(clockWatch, 1000);
+      }
+
+      function sun() {
+        const date = new Date();
+        const time = date.getHours();
+        console.log(time);
+
+        var element = document.querySelector(".sun");
+        var body = document.querySelector(".secnery");
+        var greet = document.querySelector(".greet");
+
+        var x;
+        if (time >= 6 && time < 12) {
+          x = (time - 6) * 15 + 0;
+        //   body.setAttribute("style", 'background-image: url("morning.png");');
+          greet.innerHTML = "Good Morning !";
+        } else if (time >= 12 && time <= 18) {
+          x = (time - 12) * 15 + 90;
+        //   body.setAttribute("style", 'background-image: url("afternoon.png");');
+          greet.innerHTML = "Good Afternoon !";
+        } else {
+          x = 0;
+        //   body.setAttribute("style", 'background-image: url("evening.png");');
+          greet.innerHTML = "Welcome !";
+        }
+
+        var rotation = "transform: rotate(" + x + "deg);";
+        element.setAttribute("style", rotation);
+      }
+    </script>
+  </body>
+</html>
